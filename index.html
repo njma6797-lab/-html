@@ -1,39 +1,32 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>موقع النجم لرفع الفيديوهات 🎬</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مولد روابط الفيديو 🎬</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <!-- شاشة الترحيب -->
-  <div id="welcome" class="welcome">
-    <h2>👋 مرحباً بك في موقع النجم</h2>
-    <p>الاختيار الأفضل لرفع الفيديوهات واستخراج الروابط وملفات HTML 🎥</p>
+  <div id="welcome-screen">
+    <div class="welcome-box">
+      <h2>مرحبًا بك في موقعك ❤️</h2>
+      <p>الاختيار الأفضل لرفع الفيديوهات ومشاركتها بسهولة!</p>
+    </div>
   </div>
 
   <!-- الصفحة الرئيسية -->
-  <div id="main" class="main">
-    <h1>🎬 رفع الفيديوهات</h1>
-    <input type="file" id="videoFile" accept="video/*">
-  </div>
-
-  <!-- نافذة الاختيار -->
-  <div id="choicePopup" class="popup">
-    <h3>اختر ما تريد فعله 🎯</h3>
-    <button id="linkBtn">🔗 استخراج لينك</button>
-    <button id="htmlBtn">💾 استخراج HTML</button>
-  </div>
-
-  <!-- نافذة النتيجة -->
-  <div id="resultPopup" class="popup">
-    <h3>✅ تم إنشاء الرابط بنجاح</h3>
-    <a id="videoLink" href="#" target="_blank">رابط الفيديو</a>
-    <button onclick="closePopup()">إغلاق</button>
+  <div class="container" style="display:none;">
+    <h1>🎥 رفع الفيديو وإنشاء الروابط</h1>
+    <input type="file" id="videoInput" accept="video/*">
+    <input type="text" id="messageInput" placeholder="✍️ اكتب رسالة لصديقك (ستظهر قبل الفيديو)">
+    <div class="buttons">
+      <button id="generateLink">🔗 استخراج الرابط</button>
+      <button id="generateHtml">💾 إنشاء HTML</button>
+    </div>
+    <div id="output"></div>
   </div>
 
   <script src="script.js"></script>
 </body>
-                            </html>
+</html>
