@@ -1,86 +1,74 @@
-// إظهار رسالة الترحيب أول 5 ثواني
-window.onload = function() {
+// إخفاء شاشة الترحيب بعد 5 ثواني
+window.onload = () => {
   setTimeout(() => {
-    document.getElementById("welcome").style.display = "none";
-    document.getElementById("main").style.display = "block";
+    document.getElementById("welcome-screen").style.display = "none";
+    document.querySelector(".container").style.display = "block";
   }, 5000);
 };
 
-let videoData = null;
+// استخراج رابط مباشر للفيديو
+document.getElementById("generateLink").addEventListener("click", () => {
+  const file = document.getElementById("videoInput").files[0];
+  if (!file) {
+    alert("⚠️ من فضلك اختر فيديو أولًا!");
+    return;
+  }
 
-// عند اختيار ملف الفيديو
-document.getElementById("videoFile").addEventListener("change", (event) => {
-  const file = event.target.files[0];
-  if (!file) return;
   const reader = new FileReader();
-  reader.onload = (e) => {
-    videoData = e.target.result;
-    document.getElementById("choicePopup").style.display = "block";
+  reader.onload = function (e) {
+    const videoUrl = e.target.result;
+    const output = document.getElementById("output");
+    output.innerHTML = `<p>📎 الرابط المباشر للفيديو:</p>
+      <a href="${videoUrl}" target="_blank" style="color:#4ade80;">افتح الفيديو</a>`;
   };
   reader.readAsDataURL(file);
 });
 
-// زر استخراج اللينك
-document.getElementById("linkBtn").addEventListener("click", () => {
-  if (!videoData) return alert("لم يتم رفع الفيديو بعد!");
+// إنشاء ملف HTML للرسالة + الفيديو
+document.getElementById("generateHtml").addEventListener("click", () => {
+  const file = document.getElementById("videoInput").files[0];
+  const message = document.getElementById("messageInput").value;
 
-  // إنشاء صفحة HTML صغيرة فيها الفيديو
-  const htmlCode = `
-  <!DOCTYPE html>
-  <html lang="ar">
-  <head><meta charset="UTF-8"><title>فيديو النجم</title></head>
-  <body style="margin:0;background:black;display:flex;justify-content:center;align-items:center;height:100vh;">
-  <video controls autoplay style="width:90%;max-width:700px;" src="${videoData}"></video>
-  </body></html>
-  `;
+  if (!file) {
+    alert("⚠️ اختر فيديو أولًا!");
+    return;
+  }
 
-  // تحويلها إلى رابط جاهز للفتح
-  const encoded = encodeURIComponent(htmlCode);
-  const finalLink = `data:text/html,${encoded}`;
-  showResult(finalLink);
-});
-
-// زر استخراج HTML كملف
-document.getElementById("htmlBtn").addEventListener("click", () => {
-  if (!videoData) return alert("لم يتم رفع الفيديو بعد!");
-  
-  const htmlFile = `
-  <!DOCTYPE html>
-  <html lang="ar">
-  <head>
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const videoUrl = e.target.result;
+    const htmlContent = `
+<!DOCTYPE html>
+<html lang="ar">
+<head>
   <meta charset="UTF-8">
-  <title>فيديو النجم</title>
+  <title>🎁 فيديو خاص لك</title>
   <style>
-  body {background:black;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;}
-  video {width:90%;max-width:700px;border-radius:10px;}
+    body { font-family:'Cairo',sans-serif;text-align:center;background:#0d1117;color:white;overflow:hidden;}
+    #msg {position:fixed;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;background:rgba(0,0,0,0.9);font-size:22px;animation:fadeOut 1s ease 4s forwards;}
+    @keyframes fadeOut {to{opacity:0;visibility:hidden;}}
+    video{width:90%;margin-top:100px;border-radius:15px;}
   </style>
-  </head>
-  <body>
-  <video controls autoplay src="${videoData}"></video>
-  </body>
-  </html>
-  `;
+</head>
+<body>
+  <div id="msg">${message}</div>
+  <video controls autoplay>
+    <source src="${videoUrl}" type="${file.type}">
+  </video>
+</body>
+</html>`;
 
-  const blob = new Blob([htmlFile], { type: "text/html" });
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = "video_najm.html";
-  link.click();
+    const blob = new Blob([htmlContent], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "video_message.html";
+    link.textContent = "📥 تحميل ملف HTML";
 
-  document.getElementById("choicePopup").style.display = "none";
+    const output = document.getElementById("output");
+    output.innerHTML = "";
+    output.appendChild(link);
+  };
+
+  reader.readAsDataURL(file);
 });
-
-// عرض النتيجة
-function showResult(link) {
-  document.getElementById("choicePopup").style.display = "none";
-  const popup = document.getElementById("resultPopup");
-  const linkElem = document.getElementById("videoLink");
-  linkElem.href = link;
-  linkElem.textContent = "اضغط هنا لفتح الفيديو";
-  popup.style.display = "block";
-}
-
-// إغلاق النافذة
-function closePopup() {
-  document.getElementById("resultPopup").style.display = "none";
-}
