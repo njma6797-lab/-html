@@ -1,90 +1,66 @@
 body {
-  margin: 0;
   font-family: "Cairo", sans-serif;
-  background: radial-gradient(circle, #000, #111);
-  color: #0f0;
+  background: linear-gradient(135deg, #0d1117, #1f2937);
+  color: white;
   text-align: center;
   height: 100vh;
+  margin: 0;
   overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 /* شاشة الترحيب */
-.welcome {
-  animation: fadein 1s ease;
+#welcome-screen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeOut 1s ease 4s forwards;
 }
 
-.welcome h2 {
-  color: #0f0;
-  margin-bottom: 10px;
-}
-
-@keyframes fadein {
-  from {opacity: 0; transform: translateY(20px);}
-  to {opacity: 1; transform: translateY(0);}
-}
-
-/* المحتوى الرئيسي */
-.main {
-  display: none;
-  background: rgba(255, 255, 255, 0.05);
+.welcome-box {
+  background: #111827;
+  padding: 30px 50px;
   border-radius: 20px;
-  box-shadow: 0 0 20px #0f0;
-  padding: 30px;
-  max-width: 400px;
-  width: 90%;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+  animation: pop 0.8s ease;
 }
 
-input[type=file] {
-  margin-top: 20px;
-  background: #0f0;
+@keyframes pop {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; visibility: hidden; }
+}
+
+/* الصفحة الرئيسية */
+.container {
+  margin-top: 100px;
+}
+
+input[type="file"], input[type="text"] {
+  margin: 10px;
   padding: 10px;
   border-radius: 10px;
-  cursor: pointer;
-  color: #000;
+  border: none;
 }
 
-/* النوافذ المنبثقة */
-.popup {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(20, 20, 20, 0.95);
-  border-radius: 15px;
-  box-shadow: 0 0 15px #0f0;
-  padding: 30px;
-  width: 85%;
-  max-width: 350px;
-  z-index: 1000;
-  animation: fadein 0.5s ease;
-}
-
-.popup button {
-  display: block;
-  width: 100%;
-  margin: 10px 0;
-  background: linear-gradient(90deg, #0f0, #08f);
+button {
+  margin: 10px;
+  padding: 12px 25px;
   border: none;
   border-radius: 10px;
+  background: #2563eb;
   color: white;
-  font-size: 16px;
-  padding: 10px;
+  font-weight: bold;
   cursor: pointer;
   transition: 0.3s;
 }
 
-.popup button:hover {
-  opacity: 0.85;
-}
-
-.popup a {
-  display: block;
-  color: #0f0;
-  word-wrap: break-word;
-  margin-top: 15px;
-  text-decoration: none;
+button:hover {
+  background: #1d4ed8;
 }
